@@ -23,8 +23,9 @@ class Leaderboard(object):
     SCORE_KEY = 'score'
     RANK_KEY = 'rank'
 
+    # aju
     @classmethod
-    def pool(self, host, port, db, pools={}):
+    def pool(self, host, port, db, password, pools={}):
         '''
         Fetch a redis conenction pool for the unique combination of host
         and port. Will create a new one if there isn't one already.
@@ -32,7 +33,8 @@ class Leaderboard(object):
         key = (host, port, db)
         rval = pools.get(key)
         if not isinstance(rval, ConnectionPool):
-            rval = ConnectionPool(host=host, port=port, db=db)
+            # aju
+            rval = ConnectionPool(host=host, port=port, db=db, password=password)
             pools[key] = rval
 
         return rval
@@ -74,7 +76,9 @@ class Leaderboard(object):
             self.options['connection_pool'] = self.pool(
                 self.options.pop('host', self.DEFAULT_REDIS_HOST),
                 self.options.pop('port', self.DEFAULT_REDIS_PORT),
-                self.options.pop('db', self.DEFAULT_REDIS_DB)
+                self.options.pop('db', self.DEFAULT_REDIS_DB),
+                # aju
+                self.options.pop('password')
             )
         self.redis_connection = Redis(**self.options)
 
