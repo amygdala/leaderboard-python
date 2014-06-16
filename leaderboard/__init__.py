@@ -30,7 +30,7 @@ class Leaderboard(object):
         Fetch a redis conenction pool for the unique combination of host
         and port. Will create a new one if there isn't one already.
         '''
-        key = (host, port, db)
+        key = (host, port, db, password)
         rval = pools.get(key)
         if not isinstance(rval, ConnectionPool):
             # aju
